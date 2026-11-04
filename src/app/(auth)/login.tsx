@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { useAuth } from '@/contexts/auth-context';
 import { useTheme } from '@/hooks/use-theme';
 
 const WHATSAPP_GREEN = '#25D366';
@@ -18,6 +19,7 @@ function formatPhone(digits: string) {
 
 export default function LoginScreen() {
   const theme = useTheme();
+  const { signIn } = useAuth();
   const [phone, setPhone] = useState('');
 
   const digits = phone.replace(/\D/g, '');
@@ -29,7 +31,8 @@ export default function LoginScreen() {
 
   function handleContinue() {
     if (!canContinue) return;
-    router.replace('/(tabs)');
+    signIn(phone);
+    router.replace('/');
   }
 
   return (
